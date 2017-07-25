@@ -1,6 +1,6 @@
 var dbRef = new Firebase('https://testproject-aa287.firebaseio.com/');
 var recipes = dbRef.child('recipes');
-var app = angular.module("business", ["ngRoute","ngSanitize","ngMaterial"]);
+var app = angular.module("test_app", ["ngRoute","ngSanitize","ngMaterial"]);
 app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
@@ -23,6 +23,7 @@ app.controller("tabs",function($scope,$location,$http,$timeout, $mdSidenav)
     }
     $scope.get_receipt = function()
     {
+    	$scope.receipts = [];
     	recipes.on("child_added", function(snap)
 	            {
 		            var value = snap.val();
@@ -33,9 +34,26 @@ app.controller("tabs",function($scope,$location,$http,$timeout, $mdSidenav)
 		            	{
 		            		main_desc = main_desc.substring(0,75);
 		            	}
-		            jQuery("#inserted_element").append("<li onclick=get_val('"+key+"') class='list-group-item'>"+value.title+"<br>"+main_desc+"</li>");
-		            
+		            var output_json = {"title": value.title, "description": main_desc, "key": key};
+		            $scope.receipts.push(output_json);
+		            $scope.$apply();
 		        });
+    }
+    $scope.get_val = function(firebase_key)
+    {
+    	
+    	 recipes.on("child_added", function(snap)
+                {
+    	            var value = snap.val();
+    	            var key = snap.key();
+    	            if(key == firebase_key)
+    	            	{
+    	            		$scope.shown_image = value.image;
+    	            		$scope.content_title = value.title;
+    	            		$scope.content_desc = value.description;
+    	            	}
+    	            
+    	        });
     }
     $scope.form_submit = function(title, description, img_url)
     {
@@ -61,19 +79,3 @@ app.controller("tabs",function($scope,$location,$http,$timeout, $mdSidenav)
     }
     
 });
-function get_val(firebase_key)
-{
-	recipes.on("child_added", function(snap)
-            {
-	            var value = snap.val();
-	            var key = snap.key();
-	            if(key == firebase_key)
-	            	{
-	            		jQuery("#shown_image").attr("src",value.image);
-	            		jQuery("#content_title").html(value.title);
-	            		jQuery("#content_desc").html(value.description);
-	            		jQuery("#hidden").show();
-	            	}
-	            
-	        });
-}

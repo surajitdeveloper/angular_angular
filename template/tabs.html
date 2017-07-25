@@ -48,20 +48,22 @@
                     	</div>
                     	<div class="row">
                     	<div class="col-sm-12">
-                    		<ul style="padding:10px;" class="list-group" id="inserted_element"></ul>
+                    		<ul class="list-group">
+                    				<li ng-click="get_val(single_value.key)" class='list-group-item' ng-repeat="single_value in receipts">{{single_value.title}} <br> {{single_value.description}}</li>
+                    		</ul>
                     	</div>
                     	</div>
                     </div>
                     <div class="col-sm-6">
                     	<div class="row">
                     		<div class="col-sm-12">
-                    			<img src="" id="shown_image" />
+                    			<img src="{{shown_image}}" id="shown_image" />
                     		</div>
                     		<div class="col-sm-12">
-                    			<p id="content_title"></p>
+                    			<p id="content_title">{{content_title}}</p>
                     		</div>
                     		<div class="col-sm-12">
-                    			<p id="content_desc"></p>
+                    			<p id="content_desc">{{content_desc}}</p>
                     		</div>
                     	</div>
                     </div>
