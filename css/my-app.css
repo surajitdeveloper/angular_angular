@@ -712,6 +712,10 @@ height:auto;
             top: 50%;
             left: 50%;
         }
+        .pd10
+        {
+        	padding: 10px;
+        }
         .content-block
         {
             overflow: scroll;

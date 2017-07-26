@@ -7,8 +7,20 @@ app.config(function($routeProvider) {
         templateUrl : "template/tabs.html"
     });
 });
-app.controller("tabs",function($scope)
+app.controller("tabs",function($scope,$location,$http,$timeout, $mdSidenav)
 {
+    //For loader start
+    $scope.loading=false;
+    //For loader stop
+    //for menu
+    $scope.toggleLeft = buildToggler('left');
+    $scope.toggleRight = buildToggler('right');
+
+    function buildToggler(componentId) {
+      return function() {
+        $mdSidenav(componentId).toggle();
+      };
+    }
     $scope.get_receipt = function()
     {
     	$scope.receipts = [];
@@ -33,13 +45,22 @@ app.controller("tabs",function($scope)
     	key_ref.on('child_added', function(data) {
     		  var data_val = data.val();
     		  var data_key = data.key();
-    		  if(data_key == "image")
-    			  $scope.shown_image = data_val;
-    		  else if(data_key == "title")
-    			  $scope.content_title = data_val;
-    		  else if(data_key == "description")
-    			  $scope.content_desc = data_val;
+    		  alert(data_key);
     		});
+    	/*
+    	 recipes.on("child_added", function(snap)
+                {
+    	            var value = snap.val();
+    	            var key = snap.key();
+    	            if(key == firebase_key)
+    	            	{
+    	            		$scope.shown_image = value.image;
+    	            		$scope.content_title = value.title;
+    	            		$scope.content_desc = value.description;
+    	            	}
+    	            
+    	        });
+    	        */
     }
     $scope.form_submit = function(title, description, img_url)
     {
